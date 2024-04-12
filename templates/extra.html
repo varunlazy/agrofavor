@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1LWgJuyG3iPZKbXl-MrHAtuungvbis_EgMeUPQ1k57blgOwvWrIw_FJaFoOaPufNLViq6MoxQmDfNChvtfArrS-TTvJZIyoQiY7-3rsriWSFyviNN8QVbfIfQbaQU-CBecS_xVY4ZZv7JKWAqtNGmBQ-ztw8xvzHvZxWUsRphH9tAZS3JVsyEaJrCU2x5/s705/login.jpg") center/cover no-repeat;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            height: 100vh;
+        }
+        .endbox{
+            background-color: #000000;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+        }
+        .logo{
+            height: 150px;
+            border-radius: 50%;
+            margin: 40px;
+        }
+        .txt{
+            margin-bottom: 20px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="endbox" id="endbox">
+        <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjTo48lPdjkExEBUtcOT1MctstF4HvC_6t55wIgrTYHgAEUSa0NCxoVsRS9SaZeFTycxzKx-y2BcLuG-jqHY24mbhLmAtf8F7d3mFLAPE8M-lPqe6_GCQz-cqbpTMNkwiGorCFL74QuwiQyltNITPoR5ZbPqkt_HAPnv2j_RvMP2pUSq3bikCSPhU7dZxpw/s500/logo.jpg" alt="logo"><br>
+        <div class="txt">{{txt | safe}}</div>
+    </div>
+</body>
+</html>
