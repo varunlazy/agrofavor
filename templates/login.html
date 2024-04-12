@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSQW2ZCWW9uh1iMeCTFfJS7wvDHlihvz6QVe3T1jzj7zatnWp5Rp3umZSk5EVfXUBoWzJwBZjgelKgognLWGcYb7cRW2T83ZXoy-qiKjOhanrpfanO0JgqTSrZiAh0-kI7_GuNM7jVziTkPXpXiFT3tzmuUn8_puGLSaEZaWvZv5fP7fp-XVglytybSu_5/s1140/agriculture.jpg") center/cover no-repeat;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .endbox{
+            background-color: #ffffff80;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+        }
+        .logo{
+            box-shadow: 0px 0px 10px rgba(0, 6, 3, 0.5);
+            height: 150px;
+            margin-top: 20%;
+            margin-bottom: 10%;
+            border-radius: 50%;
+        }
+        .user{
+            padding: 10px;
+            border: none;
+            width: 300px;
+            margin: 10px 30px;
+            border-radius: 50px;
+        }
+        .pass{
+            padding: 10px;
+            border: none;
+            width: 300px;
+            margin: 0 30px 10px 30px;
+            border-radius: 50px;
+        }
+        .a1{
+            display: flex;
+        }
+        .btn{
+            flex: 1;
+            background-color: #008cff;
+            color: aliceblue;
+            border-radius: 20px;
+            padding: 10px;
+            border: none;
+        }
+        .btn:hover{
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+        }
+        .b1{
+            margin: 10px 5px 50px 30px;
+        }
+        .b2{
+            margin: 10px 30px 50px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="endbox">
+        <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjTo48lPdjkExEBUtcOT1MctstF4HvC_6t55wIgrTYHgAEUSa0NCxoVsRS9SaZeFTycxzKx-y2BcLuG-jqHY24mbhLmAtf8F7d3mFLAPE8M-lPqe6_GCQz-cqbpTMNkwiGorCFL74QuwiQyltNITPoR5ZbPqkt_HAPnv2j_RvMP2pUSq3bikCSPhU7dZxpw/s500/logo.jpg" alt="logo"><br>
+        <form action="/login" method="post">
+        <input type="input" class="user p1" id="user" name="username" placeholder="Username" required><br>
+        <input type="password" class="pass p1" name="password" placeholder="Password" required><br>
+        {% if msg %}
+        <p style="color:red;">{{msg}}</p>
+        {% endif %}
+        <div class="a1">
+        <input type="submit" class="btn b1" value="Login">
+        <input type="button" class="btn b2" value="Signup" onclick="window.location.href = '/signup'">
+        </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('user').focus();
+    </script>
+</body>
+</html>
