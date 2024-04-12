@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        div{
+            overflow: hidden;
+            margin-top: 300px;
+            animation: typing 3s steps(40, end);
+        }
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="t1"><h1>WELCOME TO AGRO FAVOR</h1></div>
+<script>
+    setTimeout(function() { window.location.href = "/home" }, 5000);
+</script>
+</body>
+</html>
