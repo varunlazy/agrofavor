@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup favor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1LWgJuyG3iPZKbXl-MrHAtuungvbis_EgMeUPQ1k57blgOwvWrIw_FJaFoOaPufNLViq6MoxQmDfNChvtfArrS-TTvJZIyoQiY7-3rsriWSFyviNN8QVbfIfQbaQU-CBecS_xVY4ZZv7JKWAqtNGmBQ-ztw8xvzHvZxWUsRphH9tAZS3JVsyEaJrCU2x5/s705/login.jpg") center/cover no-repeat;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .endbox{
+            background-color: #000000;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+        }
+        .logo{
+            box-shadow: 0px 0px 10px rgba(0, 6, 3, 0.5);
+            height: 150px;
+            margin-top: 20%;
+            margin-bottom: 10%;
+            border-radius: 50%;
+        }
+        .p1{
+            padding: 10px;
+            border: none;
+            width: 300px;
+            margin: 5px 30px;
+            border-radius: 50px;
+        }
+        .p2{
+            width: 320px;
+        }
+        .a1{
+            display: flex;
+        }
+        .btn{
+            flex: 1;
+            background-color: #008cff;
+            color: aliceblue;
+            border-radius: 20px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover{
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+        }
+        .b1{
+            margin: 10px 5px 50px 30px;
+        }
+        .b2{
+            margin: 10px 30px 50px 5px;
+        }
+
+        #pse{
+            color: red;
+        }
+        .hide{
+            display: none;
+        }
+        #su:disabled{
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="endbox" id="endbox">
+        <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjTo48lPdjkExEBUtcOT1MctstF4HvC_6t55wIgrTYHgAEUSa0NCxoVsRS9SaZeFTycxzKx-y2BcLuG-jqHY24mbhLmAtf8F7d3mFLAPE8M-lPqe6_GCQz-cqbpTMNkwiGorCFL74QuwiQyltNITPoR5ZbPqkt_HAPnv2j_RvMP2pUSq3bikCSPhU7dZxpw/s500/logo.jpg" alt="logo"><br>
+        {% if txt %}
+        <h2 style="color:crimson;">{{txt}}</h2>
+        {% endif %}
+        <form id="user1" action="/signup1" method="post">
+            <input type="text" class="hide" name="user" value="user" required><br>
+            <input type="text" class="p1" name="fullname" placeholder="Full Name" required><br>
+            <input type="text" class="p1" name="dname" placeholder="Display Name" required><br>
+            <input type="number" class="p1" name="age" min="18" max="100" placeholder="Your Age" required><br>
+            <select name="gender" class="p1 p2">
+                <option value="none">--Gender--</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select><br>
+            <select name="state" id="state" class="p1 p2" onchange="dist()">
+                <option value="none">---State---</option>
+                <option value="Andhra Pradesh">Andhra Pradesh(ஆந்திரப் பிரதேசம்)</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh(அருணாசலப் பிரதேசம்)</option>
+                <option value="Assam">Assam(அசாம்)</option>
+                <option value="Bihar">Bihar(பீகார்)</option>
+                <option value="Chhattisgarh">Chhattisgarh(சத்தீசுகர்)</option>
+                <option value="Goa">Goa(கோவா)</option>
+                <option value="Gujarat">Gujarat(குசராத்து)</option>
+                <option value="Haryana">Haryana(அரியானா)</option>
+                <option value="Himachal Pradesh">Himachal Pradesh(இமாச்சலப் பிரதேசம்)</option>
+                <option value="Jharkhand">Jharkhand(சார்க்கண்டு)</option>
+                <option value="Karnataka">Karnataka(கருநாடகம்)</option>
+                <option value="Kerala">Kerala(கேரளம்)</option>
+                <option value="Madhya Pradesh">Madhya Pradesh(மத்தியப் பிரதேசம்)</option>
+                <option value="Maharashtra">Maharashtra(மகாராட்டிரம்)</option>
+                <option value="Manipur">Manipur(மணிப்பூர்)</option>
+                <option value="Meghalaya">Meghalaya(மேகாலயா)</option>
+                <option value="Mizoram">Mizoram(மிசோரம்)</option>
+                <option value="Nagaland">Nagaland(நாகாலாந்து)</option>
+                <option value="Odisha">Odisha(ஒடிசா)</option>
+                <option value="Punjab">Punjab(பஞ்சாப்)</option>
+                <option value="Rajasthan">Rajasthan(இராசத்தான்)</option>
+                <option value="Sikkim">Sikkim(சிக்கிம்)</option>
+                <option value="Tamil Nadu">Tamil Nadu(தமிழ் நாடு)</option>
+                <option value="Telangana">Telangana(தெலங்காணா)</option>
+                <option value="Tripura">Tripura(திரிபுரா)</option>
+                <option value="Uttarakhand">Uttarakhand(உத்தராகண்டம்)</option>
+                <option value="Uttar Pradesh">Uttar Pradesh(உத்தரப் பிரதேசம்)</option>
+                <option value="West Bengal">West Bengal(மேற்கு வங்காளம்)</option>
+            </select><br>
+            <div id="district"></div>
+            <input type="text" class="p1" name="address" placeholder="Address" required><br>
+            <input type="number" class="p1" name="pincode" placeholder="Pin code" required><br>
+            <input type="text" class="p1" name="gmail" placeholder="Gmail" required><br>
+            <input type="number" class="p1" name="pnumber" placeholder="Mobile number" required><br>
+            <input type="password" class="p1" name="password" placeholder="Password" minlength="8" id="p" required><br>
+            <input type="password" class="p1" name="cpassword" placeholder="Confirm Password" id="cp"required><br>
+            <p id="pse"></p>
+            <div class="a1">
+                <input type="submit" id="su" class="btn b1" value="Signup">
+                <input type="button" class="btn b2" value="Back" onclick="window.location.href = '/home'">
+            </div>
+        </form>
+    </div>
+    <script>
+        function dist(){
+            if (document.getElementById("state").value == "Andhra Pradesh"){
+                document.getElementById("district").innerHTML = "<select name='district' class='p1 p2'><option value='none'>--district--</option><option value='Srikakulam'>Srikakulam (శ్రీకాకుళం)</option><option value='Vizianagaram'>Vizianagaram (విజయనగరం) </option><option value='Manyam Dist'>Manyam Dist (మన్యం జిల్లా)</option><option value='Alluri Sitaram Raju District'> Alluri Sitaram Raju District (అల్లూరి సీతారామరాజు)</option><option value='Visakhapatnam'>Visakhapatnam (విశాఖపట్నం)</option><option value='Anakapalli'>Anakapalli (అనకాపల్లి)</option><option value='Kakinada'>Kakinada (కాకినాడ జిల్లా)</option><option value='Kona Seema'>Kona Seema (కోనసీమ)</option><option value='East Godavari'>East Godavari (తూర్పుగోదావరి)</option><option value='West Godavari'>West Godavari (పశ్చిమగోదావరి)</option><option value='Eluru'>Eluru (ఏలూరు)</option><option value='Krishna'>Krishna (కృష్ణా)</option><option value='NTR District'>NTR District(ఎన్టీఆర్ జిల్లా)</option><option value='Guntur'>Guntur(గుంటూరు)</option><option value='Bapatla'>Bapatla (బాపట్ల)</option><option value='Palnadu'>Palnadu (పల్నాడు)</option><option value='Prakasam'>Prakasam (ప్రకాశం)</option><option value='SPS Nellore'>SPS Nellore(ఎస్ పి ఎస్ నెల్లూరు)</option><option value='Kurnool'>Kurnool(కర్నూలు)</option><option value='Nandyal'>Nandyal(నంద్యాల)</option><option value='Ananthapuram'>Ananthapuram(అనంతపురం)</option><option value='Sri Satyasai District'>Sri Satyasai District(శ్రీ సత్యసాయి జిల్లా)</option><option value='YSR Kadapa'>YSR Kadapa(వై ఎస్ ఆర్ కడప)</option><option value='Annamayya District'>Annamayya District(అన్నమయ్య జిల్లా)</option><option value='Chittoor'>Chittoor(చిత్తూరు)</option><option value='Sri Balaji Dist'>Sri Balaji Dist(శ్రీ బాలాజీ జిల్లా)</option></select>";
+            }
+            else if (document.getElementById("state").value == "Tamil Nadu"){
+                document.getElementById("district").innerHTML = "<select name='district' class='p1 p2'><option value='none'>--district--</option><option value='Tiruchirappalli'>Tiruchirappalli (திருச்சி)</option><option value='Ariyalur'>Ariyalur (அரியலூர்)</option><option value='Karur'>Karur (கருர்)</option><option value='Nagappattinam'>Nagappattinam (நாகப்பட்டினம்)</option><option value='Perambalur'>Perambalur (பெரம்பலூர்)</option><option value='Pudukkottai'>Pudukkottai (புதுக்கோட்டை)</option><option value='Thanjavur'>Thanjavur (தஞ்சாவூர்)</option><option value='Tiruvarur'>Tiruvarur (திருவாருர்)</option><option value='Mayiladuthurai'>Mayiladuthurai (மயிலாடுதுறை)</option><option value='Dharmapuri'>Dharmapuri (தர்மபுரி)</option><option value='Coimbatore'>Coimbatore (கோவை)</option><option value='Erode'>Erode (ஈரோடு)</option><option value='Krishnagiri'>Krishnagiri (கிருஷ்ணகிரி)</option><option value='Namakkal'>Namakkal (நாமக்கல்)</option><option value='The Nilgiris'>The Nilgiris (நீலகிரி)</option><option value='Salem'>Salem (சேலம்)</option><option value='Tiruppur'>Tiruppur (திருப்பூர்)</option><option value='Dindigul'>Dindigul (திண்டுக்கல்)</option><option value='Kanyakumari'>Kanyakumari (கன்னியாகுமரி)</option><option value='Madurai'>Madurai (மதுரை)</option><option value='Ramanathapuram'>Ramanathapuram (இராமநாதபுரம்)</option><option value='Sivagangai'>Sivagangai (சிவகங்கை)</option><option value='Theni'>Theni (தேனி)</option><option value='Thoothukudi'>Thoothukudi (தூத்துக்குடி)</option><option value='Tirunelveli'>Tirunelveli (திருநெல்வேலி)</option><option value='Virudhunagar'>Virudhunagar (விருதுநகர்)</option><option value='Tenkasi'>Tenkasi (தென்காசி)</option><option value='Chennai'>Chennai (சென்னை)</option><option value='Cuddalore'>Cuddalore (கடலூர்)</option><option value='Kanchipuram'>Kanchipuram (காஞ்சிபுரம்)</option><option value='Chengalpattu'>Chengalpattu (செங்கல்பட்டு)</option><option value='Tiruvallur'>Tiruvallur (திருவள்ளூர்)</option><option value='Tiruvannamalai'>Tiruvannamalai (திருவண்ணாமலை)</option><option value='Vellore'>Vellore (வேலூர்)</option><option value='Viluppuram'>Viluppuram (விழுப்புரம்)</option><option value='Kallakurichi'>Kallakurichi (கள்ளக்குறிச்சி)</option><option value='Ranipet'>Ranipet (ராணிபேட்டை)</option><option value='Thirupattur'>Thirupattur (திருப்பத்தூர்)</option></select>"
+            }
+            else{
+                alert(document.getElementById("state").value + " not updated")
+            }
+        }
+        document.getElementById("cp").addEventListener("input", function() {
+                if (document.getElementById("cp").value != document.getElementById("p").value){
+                    document.getElementById("su").disabled = true;
+                    document.getElementById("pse").style.display = "block";
+                    document.getElementById("pse").innerHTML = "confirm password not match to password";
+                }
+                else{
+                    document.getElementById("su").disabled = false;
+                document.getElementById("pse").style.display = "none";
+                }
+        });
+    </script>
+</body>
+</html>
