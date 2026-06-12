@@ -4,10 +4,10 @@
 // ==============================================
 
 // Database credentials
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'greenpedia');
+define('DB_HOST', 'sql303.infinityfree.com');
+define('DB_USER', 'if0_36960050');
+define('DB_PASS', '1oWeXqfam0X');
+define('DB_NAME', 'if0_36960050_greenpedia');
 
 // Get database connection
 function getDB() {
