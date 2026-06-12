@@ -3,717 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GreenPedia - Your Sustainable Knowledge Hub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>GreenPedia - Eco Encyclopedia Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2d6a4f;
-            --primary-light: #40916c;
-            --primary-dark: #1b4332;
-            --accent: #d4a373;
-            --accent-light: #e9c46a;
-            --bg-light: #fefae0;
-            --bg-cream: #f8f4e8;
-            --bg-sand: #e9e5d6;
-            --text-dark: #1b1b1b;
-            --text-muted: #5c5c5c;
-            --success: #52b788;
+            --primary: #2d6a4f; --primary-light: #40916c; --primary-dark: #1b4332;
+            --accent: #d4a373; --accent-light: #e9c46a;
+            --bg-light: #fefae0; --bg-cream: #f8f4e8; --bg-sand: #e9e5d6;
+            --text-dark: #1b1b1b; --text-muted: #5c5c5c;
+            --success: #52b788; --danger: #e63946; --warning: #f4a261;
+            --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(255, 255, 255, 0.3);
             --shadow: rgba(27, 67, 50, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.3);
             --gradient-1: linear-gradient(135deg, #2d6a4f 0%, #40916c 50%, #52b788 100%);
             --gradient-2: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
-            --gradient-3: linear-gradient(135deg, #d4a373 0%, #e9c46a 100%);
-        }
-        [data-theme="dark"] {
-            --primary: #52b788;
-            --primary-light: #74c69d;
-            --primary-dark: #2d6a4f;
-            --bg-light: #1a1a2e;
-            --bg-cream: #16213e;
-            --bg-sand: #0f3460;
-            --text-dark: #eaeaea;
-            --text-muted: #a0a0a0;
-            --glass-bg: rgba(0, 0, 0, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow: rgba(0, 0, 0, 0.3);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-cream);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            cursor: none;
-        }
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.15s ease, background 0.15s ease;
-            transform: translate(-50%, -50%);
-        }
-        .cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            transform: translate(-50%, -50%);
-        }
-        .cursor.hover { transform: translate(-50%, -50%) scale(1.5); background: rgba(82, 183, 136, 0.2); }
-        #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .theme-toggle {
-            position: fixed;
-            top: 100px;
-            right: 30px;
-            z-index: 1000;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px var(--shadow);
-        }
-        .theme-toggle:hover { transform: scale(1.1) rotate(180deg); }
-        .theme-toggle svg { width: 28px; height: 28px; fill: var(--primary); }
-        .sun-icon { display: none; }
-        [data-theme="dark"] .sun-icon { display: block; }
-        [data-theme="dark"] .moon-icon { display: none; }
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 1.5rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: transparent;
-        }
-        nav.scrolled {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 4rem;
-            box-shadow: 0 10px 40px var(--shadow);
-        }
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        .logo-icon {
-            width: 45px;
-            height: 45px;
-            background: var(--gradient-1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.4rem;
-            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
-        }
-        .nav-links { display: flex; gap: 3rem; list-style: none; align-items: center; }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            font-size: 0.95rem;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: color 0.3s ease;
-        }
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-        .nav-links a:hover::before { width: 100%; }
-        .nav-links a:hover { color: var(--primary); }
-        .nav-cta {
-            padding: 0.8rem 1.8rem;
-            background: var(--gradient-1);
-            color: white !important;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
-        }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(45, 106, 79, 0.4); }
-        .nav-cta::before { display: none !important; }
-        .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1001; }
-        .menu-toggle span { width: 30px; height: 3px; background: var(--text-dark); border-radius: 3px; transition: all 0.3s ease; }
-        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; }
-        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 8rem 4rem 4rem;
-        }
-        .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; }
-        .hero-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: blob-float 20s ease-in-out infinite;
-        }
-        .blob-1 { width: 600px; height: 600px; background: var(--primary-light); top: -200px; right: -100px; }
-        .blob-2 { width: 400px; height: 400px; background: var(--accent); bottom: -100px; left: -100px; animation-delay: -5s; }
-        .blob-3 { width: 300px; height: 300px; background: var(--accent-light); top: 50%; left: 50%; animation-delay: -10s; }
-        @keyframes blob-float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(20px, 10px) scale(1.02); }
-        }
-        .hero-content { position: relative; z-index: 10; max-width: 800px; }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            animation: fade-in-up 0.8s ease forwards;
-        }
-        .hero-badge svg { width: 16px; height: 16px; fill: var(--accent); }
-        .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 7vw, 5.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--text-dark);
-            animation: fade-in-up 0.8s ease forwards 0.1s;
-            opacity: 0;
-        }
-        .hero h1 .highlight {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-subtitle {
-            font-size: 1.25rem;
-            font-weight: 400;
-            color: var(--text-muted);
-            max-width: 550px;
-            margin-bottom: 2.5rem;
-            animation: fade-in-up 0.8s ease forwards 0.2s;
-            opacity: 0;
-        }
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        .hero-actions {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            animation: fade-in-up 0.8s ease forwards 0.3s;
-            opacity: 0;
-        }
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            border: none;
-        }
-        .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 8px 25px rgba(45, 106, 79, 0.3); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(45, 106, 79, 0.4); }
-        .btn-secondary { background: transparent; color: var(--text-dark); border: 2px solid var(--primary); }
-        .btn-secondary:hover { background: var(--primary); color: white; transform: translateY(-3px); }
-        .search-container { position: relative; max-width: 600px; margin-top: 3rem; animation: fade-in-up 0.8s ease forwards 0.4s; opacity: 0; }
-        .search-box {
-            width: 100%;
-            padding: 1.3rem 1.5rem 1.3rem 3.5rem;
-            font-size: 1.05rem;
-            border: 2px solid transparent;
-            border-radius: 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            color: var(--text-dark);
-            box-shadow: 0 10px 40px var(--shadow);
-            transition: all 0.3s ease;
-        }
-        .search-box:focus { outline: none; border-color: var(--primary); box-shadow: 0 15px 50px var(--shadow); }
-        .search-box::placeholder { color: var(--text-muted); }
-        .search-icon { position: absolute; left: 1.3rem; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; fill: var(--primary); }
-        .search-results {
-            position: absolute;
-            top: calc(100% + 10px);
-            left: 0; right: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px var(--shadow);
-            overflow: hidden;
-            display: none;
-            z-index: 100;
-        }
-        .search-results.active { display: block; animation: slide-down 0.3s ease; }
-        @keyframes slide-down { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .search-item { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: background 0.2s ease; }
-        .search-item:hover { background: rgba(45, 106, 79, 0.1); }
-        .search-item-icon { width: 40px; height: 40px; background: var(--gradient-1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .search-item-text h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-dark); }
-        .search-item-text p { font-size: 0.8rem; color: var(--text-muted); }
-        .stats { padding: 5rem 4rem; background: var(--bg-light); position: relative; overflow: hidden; }
-        .stats::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1400px; margin: 0 auto; }
-        .stat-card {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .stat-card:hover::before { opacity: 0.1; }
-        .stat-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px var(--shadow); }
-        .stat-icon { width: 70px; height: 70px; margin: 0 auto 1.5rem; background: var(--gradient-1); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3); }
-        .stat-number { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.3rem; }
-        .stat-label { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
-        .categories { padding: 8rem 4rem; background: var(--bg-cream); position: relative; }
-        .section-header { text-align: center; margin-bottom: 4rem; }
-        .section-tag { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; background: var(--gradient-1); color: white; font-size: 0.85rem; font-weight: 600; border-radius: 50px; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
-        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; }
-        .section-desc { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
-        .category-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
-        .tab-btn { padding: 0.8rem 1.8rem; background: transparent; border: 2px solid var(--glass-border); border-radius: 50px; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: all 0.3s ease; }
-        .tab-btn:hover, .tab-btn.active { background: var(--gradient-1); border-color: transparent; color: white; transform: translateY(-2px); }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 1400px; margin: 0 auto; }
-        .category-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .category-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gradient-1); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
-        .category-card:hover::before { transform: scaleX(1); }
-        .category-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px var(--shadow); }
-        .category-icon { width: 80px; height: 80px; margin-bottom: 1.5rem; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
-        .category-card:nth-child(1) .category-icon { background: linear-gradient(135deg, #d4a373 0%, #e9c46a 100%); }
-        .category-card:nth-child(2) .category-icon { background: linear-gradient(135deg, #52b788 0%, #74c69d 100%); }
-        .category-card:nth-child(3) .category-icon { background: linear-gradient(135deg, #4361ee 0%, #7209b7 100%); }
-        .category-card:nth-child(4) .category-icon { background: linear-gradient(135deg, #f72585 0%, #ff6b6b 100%); }
-        .category-card:nth-child(5) .category-icon { background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%); }
-        .category-card:nth-child(6) .category-icon { background: linear-gradient(135deg, #ffd166 0%, #f4a261 100%); }
-        .category-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; color: var(--text-dark); margin-bottom: 0.8rem; }
-        .category-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-        .category-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--glass-border); }
-        .category-count { font-size: 0.9rem; color: var(--primary); font-weight: 600; }
-        .category-arrow { width: 40px; height: 40px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; transition: transform 0.3s ease; }
-        .category-card:hover .category-arrow { transform: rotate(-45deg); }
-        .featured { padding: 8rem 4rem; background: var(--gradient-2); position: relative; overflow: hidden; }
-        .featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-        .featured .section-tag { background: var(--accent); }
-        .featured .section-title { color: white; }
-        .featured .section-desc { color: rgba(255, 255, 255, 0.7); }
-        .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1400px; margin: 0 auto; }
-        .article-card { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 28px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; }
-        .article-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); }
-        .article-image { height: 220px; background-size: cover; background-position: center; position: relative; overflow: hidden; }
-        .article-image::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)); }
-        .article-image::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, transparent 0%, rgba(45, 106, 79, 0.3) 100%); opacity: 0; transition: opacity 0.3s ease; }
-        .article-card:hover .article-image::before { opacity: 1; }
-        .article-tag { position: absolute; top: 1.2rem; left: 1.2rem; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--text-dark); font-size: 0.8rem; font-weight: 600; border-radius: 50px; z-index: 5; }
-        .article-bookmark { position: absolute; top: 1.2rem; right: 1.2rem; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 5; transition: all 0.3s ease; }
-        .article-bookmark:hover { transform: scale(1.1); }
-        .article-bookmark svg { width: 20px; height: 20px; fill: var(--text-muted); transition: fill 0.3s ease; }
-        .article-bookmark.active svg { fill: var(--accent); }
-        .article-content { padding: 1.8rem; }
-        .article-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; color: var(--text-dark); margin-bottom: 0.8rem; line-height: 1.4; }
-        .article-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-cream); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+        
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; background: var(--glass-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 30px var(--shadow); }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 0.5rem; cursor: pointer; text-decoration: none; }
+        .logo-icon { font-size: 1.8rem; }
+        .nav-links { display: flex; gap: 0.5rem; align-items: center; }
+        .nav-btn { padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; border: none; background: transparent; color: var(--text-dark); }
+        .nav-btn:hover { background: var(--primary-light); color: white; }
+        .nav-btn.active { background: var(--gradient-1); color: white; }
+        .nav-btn.primary { background: var(--gradient-1); color: white; }
+        .nav-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(45, 106, 79, 0.3); }
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
+        .notification-btn { position: relative; width: 40px; height: 40px; border-radius: 50%; background: var(--bg-sand); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.3s ease; }
+        .notification-btn:hover { background: var(--primary-light); color: white; }
+        .notification-badge { position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background: var(--danger); color: white; border-radius: 50%; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; cursor: pointer; transition: transform 0.3s ease; }
+        .user-avatar:hover { transform: scale(1.1); }
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 6rem 1rem 2rem; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .feed-title { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--text-dark); }
+        .feed-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.5rem 1rem; border-radius: 50px; border: 2px solid var(--glass-border); background: transparent; cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; color: var(--text-dark); }
+        .filter-btn:hover, .filter-btn.active { background: var(--gradient-1); border-color: transparent; color: white; }
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
+        .article-card { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; }
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px var(--shadow); }
+        .article-image { height: 180px; background: var(--gradient-2); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white; position: relative; }
+        .article-category { position: absolute; top: 1rem; left: 1rem; padding: 0.4rem 1rem; background: var(--accent); color: var(--text-dark); font-size: 0.75rem; font-weight: 600; border-radius: 50px; }
+        .article-status { position: absolute; top: 1rem; right: 1rem; padding: 0.4rem 1rem; font-size: 0.75rem; font-weight: 600; border-radius: 50px; }
+        .article-status.pending { background: var(--warning); color: white; }
+        .article-status.approved { background: var(--success); color: white; }
+        .article-status.rejected { background: var(--danger); color: white; }
+        .article-content { padding: 1.5rem; }
+        .article-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; line-height: 1.4; }
+        .article-excerpt { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .article-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--glass-border); }
-        .article-author { display: flex; align-items: center; gap: 0.8rem; }
-        .author-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.9rem; }
-        .author-info { display: flex; flex-direction: column; }
-        .author-name { font-weight: 600; font-size: 0.9rem; color: var(--text-dark); }
-        .author-date { font-size: 0.8rem; color: var(--text-muted); }
-        .article-read-time { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
-        .article-read-time svg { width: 16px; height: 16px; fill: var(--text-muted); }
-        .quiz-section { padding: 8rem 4rem; background: var(--bg-light); position: relative; }
-        .quiz-container { max-width: 900px; margin: 0 auto; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 3rem; box-shadow: 0 30px 80px var(--shadow); }
-        .quiz-header { text-align: center; margin-bottom: 3rem; }
-        .quiz-progress { display: flex; gap: 0.5rem; margin-bottom: 2rem; }
-        .quiz-progress-bar { flex: 1; height: 6px; background: var(--bg-sand); border-radius: 10px; overflow: hidden; }
-        .quiz-progress-fill { height: 100%; background: var(--gradient-1); border-radius: 10px; transition: width 0.5s ease; }
-        .quiz-question { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--text-dark); margin-bottom: 2rem; text-align: center; }
-        .quiz-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-        .quiz-option { padding: 1.5rem; background: var(--bg-cream); border: 2px solid var(--glass-border); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; text-align: center; font-weight: 500; }
-        .quiz-option:hover, .quiz-option.selected { border-color: var(--primary); background: rgba(45, 106, 79, 0.1); transform: scale(1.02); }
-        .quiz-result { text-align: center; display: none; }
-        .quiz-result.active { display: block; animation: fade-in-up 0.5s ease; }
-        .score-circle { width: 200px; height: 200px; margin: 0 auto 2rem; background: conic-gradient(var(--primary) 0% var(--score-percent, 75%), var(--bg-sand) var(--score-percent, 75%) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
-        .score-circle::before { content: ''; position: absolute; width: 160px; height: 160px; background: var(--glass-bg); border-radius: 50%; }
-        .score-inner { position: relative; z-index: 5; text-align: center; }
-        .score-number { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; color: var(--primary); }
-        .score-text { font-size: 1rem; color: var(--text-muted); }
-        .quiz-actions { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
-        .testimonials { padding: 8rem 4rem; background: var(--bg-cream); overflow: hidden; }
-        .testimonial-slider { position: relative; max-width: 1200px; margin: 0 auto; }
-        .testimonial-track { display: flex; gap: 2rem; transition: transform 0.5s ease; }
-        .testimonial-card { min-width: calc(33.333% - 1.33rem); background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 28px; padding: 2.5rem; position: relative; }
-        .testimonial-quote { font-size: 3rem; color: var(--primary); opacity: 0.3; position: absolute; top: 1.5rem; right: 2rem; }
-        .testimonial-text { font-size: 1.05rem; color: var(--text-dark); margin-bottom: 2rem; line-height: 1.8; }
-        .testimonial-author { display: flex; align-items: center; gap: 1rem; }
-        .testimonial-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
-        .testimonial-info h4 { font-size: 1rem; color: var(--text-dark); margin-bottom: 0.2rem; }
-        .testimonial-info p { font-size: 0.85rem; color: var(--text-muted); }
-        .testimonial-nav { display: flex; justify-content: center; gap: 1rem; margin-top: 3rem; }
-        .testimonial-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
-        .testimonial-btn:hover { background: var(--gradient-1); color: white; border-color: transparent; }
-        .faq { padding: 8rem 4rem; background: var(--bg-light); }
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 20px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { box-shadow: 0 10px 30px var(--shadow); }
-        .faq-question { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1.1rem; color: var(--text-dark); }
-        .faq-icon { width: 30px; height: 30px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; transition: transform 0.3s ease; }
-        .faq-item.active .faq-icon { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-        .faq-item.active .faq-answer { max-height: 500px; }
-        .faq-answer-content { padding: 0 2rem 1.5rem; color: var(--text-muted); line-height: 1.8; }
-        .newsletter { padding: 6rem 4rem; background: var(--gradient-1); position: relative; overflow: hidden; }
-        .newsletter::before { content: ''; position: absolute; top: -50%; right: -20%; width: 60%; height: 200%; background: radial-gradient(ellipse, rgba(255,255,255,0.15) 0%, transparent 70%); }
-        .newsletter-content { max-width: 600px; margin: 0 auto; text-align: center; position: relative; z-index: 5; }
-        .newsletter h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; color: white; margin-bottom: 1rem; }
-        .newsletter p { color: rgba(255, 255, 255, 0.8); margin-bottom: 2.5rem; }
-        .newsletter-form { display: flex; gap: 1rem; max-width: 500px; margin: 0 auto; }
-        .newsletter-form input { flex: 1; padding: 1.2rem 1.5rem; border: none; border-radius: 50px; font-size: 1rem; background: rgba(255, 255, 255, 0.95); }
-        .newsletter-form button { padding: 1.2rem 2rem; border: none; border-radius: 50px; background: var(--text-dark); color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-        .newsletter-form button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
-        footer { background: var(--text-dark); color: white; padding: 5rem 4rem 2rem; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; max-width: 1400px; margin: 0 auto; padding-bottom: 4rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        .footer-brand h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
-        .footer-brand p { color: rgba(255, 255, 255, 0.6); margin-bottom: 2rem; line-height: 1.8; }
-        .social-links { display: flex; gap: 1rem; }
-        .social-links a { width: 45px; height: 45px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; transition: all 0.3s ease; }
-        .social-links a:hover { background: var(--primary); transform: translateY(-5px); }
-        .footer-links h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem; }
-        .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 0.8rem; }
-        .footer-links a { color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.3s ease; }
-        .footer-links a:hover { color: white; }
-        .footer-bottom { text-align: center; padding-top: 2rem; color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; }
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 2rem; }
+        .article-author { display: flex; align-items: center; gap: 0.5rem; }
+        .author-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600; }
+        .author-name { font-size: 0.85rem; font-weight: 500; color: var(--text-dark); }
+        .article-stats { display: flex; gap: 1rem; }
+        .stat { display: flex; align-items: center; gap: 0.3rem; font-size: 0.85rem; color: var(--text-muted); }
+        .create-article-container { max-width: 800px; margin: 0 auto; background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 2rem; }
+        .form-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 2rem; text-align: center; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .form-input, .form-textarea, .form-select { width: 100%; padding: 1rem; border: 2px solid var(--glass-border); border-radius: 12px; font-size: 1rem; font-family: inherit; background: white; transition: all 0.3s ease; }
+        .form-input:focus, .form-textarea:focus, .form-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1); }
+        .form-textarea { min-height: 200px; resize: vertical; }
+        .submit-btn { width: 100%; padding: 1rem; background: var(--gradient-1); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(45, 106, 79, 0.3); }
+        .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; text-align: center; }
+        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem; }
+        .pending-list { display: flex; flex-direction: column; gap: 1rem; }
+        .pending-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .pending-info { flex: 1; }
+        .pending-info h4 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 0.3rem; }
+        .pending-info p { font-size: 0.85rem; color: var(--text-muted); }
+        .pending-actions { display: flex; gap: 0.5rem; }
+        .action-btn { padding: 0.5rem 1rem; border-radius: 50px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .action-btn.approve { background: var(--success); color: white; }
+        .action-btn.reject { background: var(--danger); color: white; }
+        .action-btn:hover { transform: scale(1.05); }
+        .profile-container { max-width: 800px; margin: 0 auto; }
+        .profile-header { background: var(--gradient-2); border-radius: 24px; padding: 3rem 2rem; text-align: center; color: white; position: relative; overflow: hidden; }
+        .profile-avatar { width: 120px; height: 120px; border-radius: 50%; background: white; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; z-index: 1; }
+        .profile-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; position: relative; z-index: 1; }
+        .profile-bio { font-size: 1rem; opacity: 0.9; margin-top: 0.5rem; position: relative; z-index: 1; }
+        .profile-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; position: relative; z-index: 1; }
+        .profile-stat { text-align: center; }
+        .profile-stat-value { font-size: 1.5rem; font-weight: 700; }
+        .profile-stat-label { font-size: 0.85rem; opacity: 0.8; }
+        .article-detail { max-width: 800px; margin: 0 auto; }
+        .article-detail-header { text-align: center; margin-bottom: 2rem; }
+        .article-detail-category { display: inline-block; padding: 0.5rem 1.5rem; background: var(--gradient-1); color: white; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
+        .article-detail-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--text-dark); line-height: 1.3; margin-bottom: 1rem; }
+        .article-detail-meta { display: flex; justify-content: center; align-items: center; gap: 2rem; color: var(--text-muted); }
+        .article-detail-author { display: flex; align-items: center; gap: 0.5rem; }
+        .article-detail-content { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; padding: 2rem; margin-bottom: 2rem; line-height: 1.8; font-size: 1.05rem; }
+        .article-actions { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+        .article-action-btn { padding: 0.8rem 2rem; border-radius: 50px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
+        .article-action-btn.like { background: var(--gradient-1); color: white; }
+        .article-action-btn.comment { background: var(--bg-sand); color: var(--text-dark); }
+        .article-action-btn:hover { transform: scale(1.05); }
+        .comments-section { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; padding: 2rem; }
+        .comments-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1.5rem; }
+        .comment-form { margin-bottom: 2rem; }
+        .comment-input { width: 100%; padding: 1rem; border: 2px solid var(--glass-border); border-radius: 16px; font-size: 1rem; font-family: inherit; resize: vertical; min-height: 100px; }
+        .comment-input:focus { outline: none; border-color: var(--primary); }
+        .comment-submit { margin-top: 1rem; padding: 0.8rem 2rem; background: var(--gradient-1); color: white; border: none; border-radius: 50px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .comments-list { display: flex; flex-direction: column; gap: 1rem; }
+        .comment-item { display: flex; gap: 1rem; padding: 1rem; background: white; border-radius: 16px; }
+        .comment-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; flex-shrink: 0; }
+        .comment-content { flex: 1; }
+        .comment-author { font-weight: 600; color: var(--text-dark); margin-bottom: 0.3rem; }
+        .comment-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+        .comment-time { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 1rem; }
         .modal-overlay.active { display: flex; }
-        .modal-content { max-width: 800px; max-height: 90vh; background: var(--bg-cream); border-radius: 30px; overflow: hidden; position: relative; }
-        .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; width: 50px; height: 50px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: all 0.3s ease; }
-        .modal-close:hover { transform: rotate(90deg); background: var(--primary); color: white; }
-        .modal-body { padding: 3rem; overflow-y: auto; max-height: 90vh; }
-        .modal-body h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 1.5rem; }
-        .modal-body p { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.8; }
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-cream); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease; }
-        .loading-overlay.hidden { opacity: 0; visibility: hidden; }
-        .loader { width: 60px; height: 60px; border: 4px solid var(--bg-sand); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        .modal-content { background: var(--bg-cream); border-radius: 24px; padding: 2rem; max-width: 450px; width: 100%; position: relative; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 40px; height: 40px; border-radius: 50%; background: var(--bg-sand); border: none; cursor: pointer; font-size: 1.2rem; transition: all 0.3s ease; }
+        .modal-close:hover { background: var(--danger); color: white; }
+        .modal-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--text-dark); text-align: center; margin-bottom: 1.5rem; }
+        .auth-form .form-group { margin-bottom: 1rem; }
+        .auth-form .submit-btn { margin-top: 1rem; }
+        .auth-switch { text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted); }
+        .auth-switch a { color: var(--primary); cursor: pointer; font-weight: 600; }
+        .notifications-dropdown { position: absolute; top: 100%; right: 0; width: 350px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: 0 20px 60px var(--shadow); display: none; max-height: 400px; overflow-y: auto; }
+        .notifications-dropdown.active { display: block; }
+        .notification-item { padding: 1rem; border-bottom: 1px solid var(--glass-border); cursor: pointer; transition: background 0.3s ease; }
+        .notification-item:hover { background: var(--bg-sand); }
+        .notification-item:last-child { border-bottom: none; }
+        .notification-text { font-size: 0.9rem; color: var(--text-dark); }
+        .notification-time { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 2rem; background: var(--gradient-1); color: white; border-radius: 12px; font-weight: 500; box-shadow: 0 10px 40px var(--shadow); transform: translateY(100px); opacity: 0; transition: all 0.4s ease; z-index: 3000; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.error { background: var(--danger); }
+        .toast.success { background: var(--success); }
+        .loading { text-align: center; padding: 3rem; color: var(--text-muted); }
+        .loading-spinner { width: 40px; height: 40px; border: 4px solid var(--bg-sand); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-        @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .articles-grid { grid-template-columns: repeat(2, 1fr); }
-            .testimonial-card { min-width: calc(50% - 1rem); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-        }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .empty-state-title { font-size: 1.5rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .empty-state-text { font-size: 0.95rem; }
         @media (max-width: 768px) {
-            .menu-toggle { display: flex; }
-            .nav-links { position: fixed; top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh; background: var(--bg-cream); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; transition: right 0.4s ease; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1); }
-            .nav-links.active { right: 0; }
-            nav { padding: 1rem 2rem; }
-            .hero { padding: 6rem 2rem 3rem; }
-            .stats, .categories, .featured, .quiz-section, .testimonials, .faq, .newsletter, footer { padding-left: 2rem; padding-right: 2rem; }
-            .stats-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .feed-header { flex-direction: column; align-items: flex-start; }
             .articles-grid { grid-template-columns: 1fr; }
-            .quiz-options { grid-template-columns: 1fr; }
-            .newsletter-form { flex-direction: column; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .testimonial-card { min-width: 100%; }
-            .theme-toggle { top: 80px; right: 20px; width: 50px; height: 50px; }
+            .profile-stats { gap: 1.5rem; }
+            .article-detail-title { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay"><div class="loader"></div></div>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
-    <canvas id="particles-canvas"></canvas>
-    <button class="theme-toggle" id="themeToggle">
-        <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"/></svg>
-    </button>
-    <nav id="navbar">
-        <a href="#" class="logo"><div class="logo-icon">🌿</div>GreenPedia</a>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#categories">Categories</a></li>
-            <li><a href="#featured">Articles</a></li>
-            <li><a href="#quiz">Calculator</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact" class="nav-cta">Join Now</a></li>
-        </ul>
-        <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+    <nav>
+        <div class="logo" onclick="showPage('feed')"><span class="logo-icon">🌿</span>GreenPedia</div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="showPage('feed')">Feed</button>
+            <button class="nav-btn" onclick="showPage('create')">Write Article</button>
+            <button class="nav-btn" onclick="showPage('profile')">My Profile</button>
+            <button class="nav-btn" id="adminBtn" style="display:none;" onclick="showPage('admin')">Admin</button>
+        </div>
+        <div class="nav-right">
+            <div style="position:relative;">
+                <button class="notification-btn" onclick="toggleNotifications()">🔔<span class="notification-badge" id="notifBadge" style="display:none;">0</span></button>
+                <div class="notifications-dropdown" id="notificationsDropdown"></div>
+            </div>
+            <div id="authButtons">
+                <button class="nav-btn" onclick="showAuthModal('login')">Login</button>
+                <button class="nav-btn primary" onclick="showAuthModal('register')">Sign Up</button>
+            </div>
+            <div id="userMenu" style="display:none;"><div class="user-avatar" id="userAvatar" onclick="showPage('profile')">U</div></div>
+        </div>
     </nav>
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="hero-blob blob-1"></div>
-            <div class="hero-blob blob-2"></div>
-            <div class="hero-blob blob-3"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                #1 Eco Knowledge Platform
-            </div>
-            <h1>Discover <span class="highlight">Sustainable</span> Living</h1>
-            <p class="hero-subtitle">Your comprehensive guide to eco-friendly practices, environmental conservation, and building a greener future for our planet.</p>
-            <div class="hero-actions">
-                <a href="#categories" class="btn btn-primary">Explore Topics<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                <a href="#quiz" class="btn btn-secondary">Take Quiz</a>
-            </div>
-            <div class="search-container">
-                <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                <input type="text" class="search-box" id="searchBox" placeholder="Search eco topics, articles, guides...">
-                <div class="search-results" id="searchResults">
-                    <div class="search-item" data-query="carbon footprint"><div class="search-item-icon">🌍</div><div class="search-item-text"><h4>Carbon Footprint Guide</h4><p>Understanding and reducing your carbon impact</p></div></div>
-                    <div class="search-item" data-query="solar energy"><div class="search-item-icon">☀️</div><div class="search-item-text"><h4>Solar Energy Solutions</h4><p>Clean energy for your home</p></div></div>
-                    <div class="search-item" data-query="zero waste"><div class="search-item-icon">♻️</div><div class="search-item-text"><h4>Zero Waste Living</h4><p>Practical tips for sustainable living</p></div></div>
-                    <div class="search-item" data-query="ocean conservation"><div class="search-item-icon">🌊</div><div class="search-item-text"><h4>Ocean Conservation</h4><p>Protecting marine ecosystems</p></div></div>
+
+    <div class="main-container">
+        <div id="feedPage" class="page active">
+            <div class="feed-header">
+                <h1 class="feed-title">Eco News Feed</h1>
+                <div class="feed-filters">
+                    <button class="filter-btn active" onclick="filterArticles('all')">All</button>
+                    <button class="filter-btn" onclick="filterArticles('climate')">🌱 Climate</button>
+                    <button class="filter-btn" onclick="filterArticles('energy')">⚡ Energy</button>
+                    <button class="filter-btn" onclick="filterArticles('wildlife')">🦋 Wildlife</button>
+                    <button class="filter-btn" onclick="filterArticles('food')">🥗 Food</button>
                 </div>
             </div>
+            <div class="articles-grid" id="articlesGrid"></div>
         </div>
-    </section>
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-card reveal"><div class="stat-icon">📚</div><div class="stat-number"><span class="counter" data-target="2500">0</span>+</div><div class="stat-label">Eco Articles</div></div>
-            <div class="stat-card reveal reveal-delay-1"><div class="stat-icon">🌍</div><div class="stat-number"><span class="counter" data-target="180">0</span></div><div class="stat-label">Countries Covered</div></div>
-            <div class="stat-card reveal reveal-delay-2"><div class="stat-icon">👥</div><div class="stat-number"><span class="counter" data-target="50">0</span>K+</div><div class="stat-label">Monthly Readers</div></div>
-            <div class="stat-card reveal reveal-delay-3"><div class="stat-icon">✍️</div><div class="stat-number"><span class="counter" data-target="350">0</span>+</div><div class="stat-label">Expert Contributors</div></div>
-        </div>
-    </section>
-    <section class="categories" id="categories">
-        <div class="section-header">
-            <span class="section-tag">Explore Topics</span>
-            <h2 class="section-title">Browse by Category</h2>
-            <p class="section-desc">Dive into our comprehensive collection of environmental and sustainability topics</p>
-        </div>
-        <div class="category-tabs">
-            <button class="tab-btn active" data-tab="all">All Topics</button>
-            <button class="tab-btn" data-tab="climate">Climate</button>
-            <button class="tab-btn" data-tab="energy">Energy</button>
-            <button class="tab-btn" data-tab="wildlife">Wildlife</button>
-        </div>
-        <div class="categories-grid">
-            <div class="category-card reveal" data-category="climate"><div class="category-icon">🌱</div><h3>Sustainable Living</h3><p>Guides for reducing your environmental footprint in daily life through practical eco-friendly choices.</p><div class="category-footer"><span class="category-count">324 articles</span><div class="category-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
-            <div class="category-card reveal reveal-delay-1" data-category="energy"><div class="category-icon">⚡</div><h3>Renewable Energy</h3><p>Understanding solar, wind, and alternative energy solutions for a cleaner future.</p><div class="category-footer"><span class="category-count">218 articles</span><div class="category-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
-            <div class="category-card reveal reveal-delay-2" data-category="wildlife"><div class="category-icon">🌊</div><h3>Ocean Conservation</h3><p>Protecting marine ecosystems and ocean biodiversity for future generations.</p><div class="category-footer"><span class="category-count">156 articles</span><div class="category-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
-            <div class="category-card reveal reveal-delay-3" data-category="climate"><div class="category-icon">🌲</div><h3>Forestry</h3><p>Deforestation issues and sustainable forest management practices worldwide.</p><div class="category-footer"><span class="category-count">189 articles</span><div class="category-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
-            <div class="category-card reveal reveal-delay-4" data-category="climate"><div class="category-icon">♻️</div><h3>Waste Management</h3><p>Recycling, composting, and zero-waste strategies for sustainable living.</p><div class="category-footer"><span class="category-count">267 articles</span><div class="category-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
-            <div class="category-card reveal" data-category="wildlife"><div class="category-icon">🦋</div><h3>Wildlife</h3><p>Endangered species, habitats, and biodiversity protection efforts.</p><div class="category-footer"><span class="category-count">203 articles</span><div class="category-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
-        </div>
-    </section>
-    <section class="featured" id="featured">
-        <div class="section-header">
-            <span class="section-tag">Featured</span>
-            <h2 class="section-title">Popular Articles</h2>
-            <p class="section-desc">Discover our most read and shared content from the community</p>
-        </div>
-        <div class="articles-grid">
-            <div class="article-card reveal" data-article="1"><div class="article-image" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);"><span class="article-tag">Climate</span><div class="article-bookmark"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div></div><div class="article-content"><h3>The Science Behind Carbon Footprints: A Complete Guide</h3><p>Understanding how individual actions contribute to global emissions and practical steps to minimize your impact.</p><div class="article-meta"><div class="article-author"><div class="author-avatar">EM</div><div class="author-info"><span class="author-name">Elena Martinez</span><span class="author-date">Mar 15, 2024</span></div></div><div class="article-read-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>8 min</div></div></div></div>
-            <div class="article-card reveal reveal-delay-1" data-article="2"><div class="article-image" style="background: linear-gradient(135deg, #d4a373 0%, #e9c46a 100%);"><span class="article-tag">Food</span><div class="article-bookmark"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div></div><div class="article-content"><h3>Permaculture Principles: Designing Sustainable Gardens</h3><p>Learn how to create self-sustaining food systems that work with nature rather than against it.</p><div class="article-meta"><div class="article-author"><div class="author-avatar">JK</div><div class="author-info"><span class="author-name">James Kim</span><span class="author-date">Mar 12, 2024</span></div></div><div class="article-read-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>12 min</div></div></div></div>
-            <div class="article-card reveal reveal-delay-2" data-article="3"><div class="article-image" style="background: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);"><span class="article-tag">Water</span><div class="article-bookmark"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div></div><div class="article-content"><h3>Water Conservation Techniques for Urban Living</h3><p>Simple yet effective methods to reduce water usage in cities while maintaining quality of life.</p><div class="article-meta"><div class="article-author"><div class="author-avatar">SR</div><div class="author-info"><span class="author-name">Sara Roberts</span><span class="author-date">Mar 10, 2024</span></div></div><div class="article-read-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>6 min</div></div></div></div>
-        </div>
-    </section>
-    <section class="quiz-section" id="quiz">
-        <div class="section-header">
-            <span class="section-tag">Interactive</span>
-            <h2 class="section-title">Sustainability Calculator</h2>
-            <p class="section-desc">Discover your environmental impact and get personalized recommendations</p>
-        </div>
-        <div class="quiz-container">
-            <div class="quiz-header">
-                <div class="quiz-progress"><div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgress"></div></div></div>
-                <span id="quizStepText">Question 1 of 5</span>
+
+        <div id="createPage" class="page">
+            <div class="create-article-container">
+                <h2 class="form-title">✍️ Write an Article</h2>
+                <form class="auth-form" id="articleForm">
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-input" id="articleTitle" placeholder="Enter article title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="articleCategory">
+                            <option value="climate">Climate Change</option>
+                            <option value="energy">Renewable Energy</option>
+                            <option value="wildlife">Wildlife Conservation</option>
+                            <option value="food">Sustainable Food</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Content</label>
+                        <textarea class="form-textarea" id="articleContent" placeholder="Write your article content here..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit for Review</button>
+                </form>
             </div>
-            <div id="quizContent">
-                <div class="quiz-question" id="quizQuestion">How often do you use single-use plastics?</div>
-                <div class="quiz-options" id="quizOptions">
-                    <div class="quiz-option" data-value="20">Always</div>
-                    <div class="quiz-option" data-value="40">Often</div>
-                    <div class="quiz-option" data-value="70">Sometimes</div>
-                    <div class="quiz-option" data-value="100">Rarely</div>
+        </div>
+
+        <div id="adminPage" class="page">
+            <div class="feed-title" style="margin-bottom:2rem;">🛡️ Admin Dashboard</div>
+            <div class="admin-stats">
+                <div class="stat-card"><div class="stat-value" id="statUsers">0</div><div class="stat-label">Total Users</div></div>
+                <div class="stat-card"><div class="stat-value" id="statArticles">0</div><div class="stat-label">Published Articles</div></div>
+                <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Pending Approval</div></div>
+            </div>
+            <h2 class="feed-title" style="font-size:1.5rem;margin-bottom:1rem;">📋 Pending Articles</h2>
+            <div class="pending-list" id="pendingList"></div>
+        </div>
+
+        <div id="profilePage" class="page">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">U</div>
+                    <h2 class="profile-name" id="profileName">User</h2>
+                    <p class="profile-bio" id="profileBio">Eco enthusiast</p>
+                    <div class="profile-stats">
+                        <div class="profile-stat"><div class="profile-stat-value" id="profileArticles">0</div><div class="profile-stat-label">Articles</div></div>
+                        <div class="profile-stat"><div class="profile-stat-value" id="profileFollowers">0</div><div class="profile-stat-label">Followers</div></div>
+                        <div class="profile-stat"><div class="profile-stat-value" id="profileFollowing">0</div><div class="profile-stat-label">Following</div></div>
+                    </div>
                 </div>
-            </div>
-            <div class="quiz-result" id="quizResult">
-                <div class="score-circle" id="scoreCircle" style="--score-percent: 75%"><div class="score-inner"><div class="score-number" id="finalScore">75</div><div class="score-text">out of 100</div></div></div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-dark);">Your Sustainability Score</h3>
-                <p id="scoreMessage" style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">Great job! You're making positive environmental choices. Here's how you can improve further...</p>
-                <div class="quiz-actions"><button class="btn btn-primary" onclick="resetQuiz()">Try Again</button><a href="#contact" class="btn btn-secondary">Get Action Plan</a></div>
+                <div class="articles-grid" id="userArticlesGrid" style="margin-top:2rem;"></div>
             </div>
         </div>
-    </section>
-    <section class="testimonials">
-        <div class="section-header">
-            <span class="section-tag">Testimonials</span>
-            <h2 class="section-title">What Our Readers Say</h2>
-            <p class="section-desc">Join thousands of eco-conscious individuals learning to live sustainably</p>
+
+        <div id="articlePage" class="page">
+            <div class="article-detail" id="articleDetail"></div>
         </div>
-        <div class="testimonial-slider">
-            <div class="testimonial-track" id="testimonialTrack">
-                <div class="testimonial-card"><span class="testimonial-quote">"</span><p class="testimonial-text">GreenPedia has completely changed how I approach sustainable living. The articles are well-researched and practical. I've reduced my carbon footprint by 40% in just 6 months!</p><div class="testimonial-author"><div class="testimonial-avatar">AM</div><div class="testimonial-info"><h4>Amanda Mitchell</h4><p>Environmental Activist</p></div></div></div>
-                <div class="testimonial-card"><span class="testimonial-quote">"</span><p class="testimonial-text">As a teacher, I use GreenPedia resources daily. The way complex topics are explained makes it easy for my students to understand environmental issues.</p><div class="testimonial-author"><div class="testimonial-avatar">RD</div><div class="testimonial-info"><h4>Robert Dawson</h4><p>High School Teacher</p></div></div></div>
-                <div class="testimonial-card"><span class="testimonial-quote">"</span><p class="testimonial-text">The sustainability calculator helped me identify areas where I could improve. Now I've installed solar panels and started composting. Amazing platform!</p><div class="testimonial-author"><div class="testimonial-avatar">LC</div><div class="testimonial-info"><h4>Linda Chen</h4><p>Small Business Owner</p></div></div></div>
-                <div class="testimonial-card"><span class="testimonial-quote">"</span><p class="testimonial-text">I love the variety of topics covered. From ocean conservation to renewable energy, there's always something new to learn. Best eco resource online!</p><div class="testimonial-author"><div class="testimonial-avatar">MJ</div><div class="testimonial-info"><h4>Michael Johnson</h4><p>Marine Biologist</p></div></div></div>
-            </div>
-            <div class="testimonial-nav">
-                <button class="testimonial-btn" id="prevBtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-                <button class="testimonial-btn" id="nextBtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
-            </div>
+    </div>
+
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+            <h2 class="modal-title" id="authTitle">Login</h2>
+            <form class="auth-form" id="authForm">
+                <div class="form-group" id="usernameGroup" style="display:none;">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="authUsername" placeholder="Choose username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-input" id="authUser" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="authPassword" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="submit-btn" id="authSubmit">Login</button>
+            </form>
+            <p class="auth-switch"><span id="authSwitchText">Don't have an account?</span> <a onclick="toggleAuthMode()" id="authSwitchLink">Sign Up</a></p>
         </div>
-    </section>
-    <section class="faq" id="faq">
-        <div class="section-header">
-            <span class="section-tag">FAQ</span>
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-desc">Find answers to common questions about sustainable living</p>
-        </div>
-        <div class="faq-container">
-            <div class="faq-item"><div class="faq-question">What is a carbon footprint and how can I reduce mine?<div class="faq-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-answer"><div class="faq-answer-content">A carbon footprint is the total amount of greenhouse gases produced by your activities. To reduce it, you can: use public transportation, eat less meat, improve home insulation, switch to renewable energy, and reduce waste. Our comprehensive guides provide detailed steps for each area.</div></div></div>
-            <div class="faq-item"><div class="faq-question">How accurate is the sustainability calculator?<div class="faq-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-answer"><div class="faq-answer-content">The calculator uses scientifically-backed metrics and research from environmental organizations. While it provides a good general estimate, individual results may vary based on location, lifestyle factors, and specific circumstances. We recommend using it as a starting point for improvement rather than an exact measurement.</div></div></div>
-            <div class="faq-item"><div class="faq-question">Can I contribute articles to GreenPedia?<div class="faq-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-answer"><div class="faq-answer-content">Absolutely! We welcome contributions from environmental experts, researchers, and passionate individuals. Our editorial team reviews all submissions to ensure accuracy and quality. Please contact us through our submission form with your topic proposal and credentials.</div></div></div>
-            <div class="faq-item"><div class="faq-question">Is GreenPedia available in multiple languages?<div class="faq-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="faq-answer"><div class="faq-answer-content">Currently, GreenPedia is available in English, Spanish, French, and German. We're working on expanding to more languages to make sustainable knowledge accessible to everyone. Want to help with translations? Reach out to our team!</div></div></div>
-        </div>
-    </section>
-    <section class="newsletter" id="contact">
-        <div class="newsletter-content">
-            <h2>Join the Green Movement</h2>
-            <p>Subscribe to receive weekly eco-tips, new articles, and sustainability news directly in your inbox.</p>
-            <form class="newsletter-form" id="newsletterForm"><input type="email" placeholder="Enter your email address" required><button type="submit">Subscribe</button></form>
-        </div>
-    </section>
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand"><h3><span>🌿</span> GreenPedia</h3><p>Empowering individuals with knowledge to live sustainably and protect our planet for future generations.</p><div class="social-links"><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg></a></div></div>
-            <div class="footer-links"><h4>Explore</h4><ul><li><a href="#">All Topics</a></li><li><a href="#">Popular Articles</a></li><li><a href="#">Latest Additions</a></li><li><a href="#">Expert Contributors</a></li></ul></div>
-            <div class="footer-links"><h4>Resources</h4><ul><li><a href="#">Sustainability Guide</a></li><li><a href="#">Calculator Tools</a></li><li><a href="#">Infographics</a></li><li><a href="#">Research Papers</a></li></ul></div>
-            <div class="footer-links"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Our Mission</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2024 GreenPedia. All rights reserved. Made with 🌿 for our planet.</p></div>
-    </footer>
-    <div class="modal-overlay" id="articleModal"><div class="modal-content"><div class="modal-close" id="modalClose"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></div><div class="modal-body" id="modalBody"></div></div></div>
+    </div>
+
+    <div class="toast" id="toast">Message</div>
+
     <script>
-        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('loadingOverlay').classList.add('hidden'); }, 1000); });
-        const cursor = document.getElementById('cursor'); const cursorDot = document.getElementById('cursorDot'); let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; cursorDot.style.left = mouseX + 'px'; cursorDot.style.top = mouseY + 'px'; });
-        function animateCursor() { cursorX += (mouseX - cursorX) * 0.1; cursorY += (mouseY - cursorY) * 0.1; cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px'; requestAnimationFrame(animateCursor); }
-        animateCursor();
-        document.querySelectorAll('a, button, .category-card, .article-card, .quiz-option').forEach(el => { el.addEventListener('mouseenter', () => cursor.classList.add('hover')); el.addEventListener('mouseleave', () => cursor.classList.remove('hover')); });
-        if ('ontouchstart' in window) { cursor.style.display = 'none'; cursorDot.style.display = 'none'; }
-        const canvas = document.getElementById('particles-canvas'); const ctx = canvas.getContext('2d'); let particles = [];
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resizeCanvas(); window.addEventListener('resize', resizeCanvas);
-        class Particle { constructor() { this.reset(); } reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 3 + 1; this.speedX = Math.random() * 0.5 - 0.25; this.speedY = Math.random() * 0.5 - 0.25; this.opacity = Math.random() * 0.5 + 0.1; } update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) { this.reset(); } } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(45, 106, 79, ${this.opacity})`; ctx.fill(); } }
-        for (let i = 0; i < 50; i++) { particles.push(new Particle()); }
-        function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
-        animateParticles();
-        const themeToggle = document.getElementById('themeToggle'); const html = document.documentElement; const savedTheme = localStorage.getItem('theme') || 'light'; html.setAttribute('data-theme', savedTheme);
-        themeToggle.addEventListener('click', () => { const currentTheme = html.getAttribute('data-theme'); const newTheme = currentTheme === 'dark' ? 'light' : 'dark'; html.setAttribute('data-theme', newTheme); localStorage.setItem('theme', newTheme); });
-        const navbar = document.getElementById('navbar'); window.addEventListener('scroll', () => { if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); } });
-        const menuToggle = document.getElementById('menuToggle'); const navLinks = document.getElementById('navLinks');
-        menuToggle.addEventListener('click', () => { menuToggle.classList.toggle('active'); navLinks.classList.toggle('active'); });
-        navLinks.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { menuToggle.classList.remove('active'); navLinks.classList.remove('active'); }); });
-        const searchBox = document.getElementById('searchBox'); const searchResults = document.getElementById('searchResults');
-        searchBox.addEventListener('focus', () => { if (searchBox.value.length > 0) { searchResults.classList.add('active'); } });
-        searchBox.addEventListener('input', () => { if (searchBox.value.length > 0) { searchResults.classList.add('active'); } else { searchResults.classList.remove('active'); } });
-        document.addEventListener('click', (e) => { if (!e.target.closest('.search-container')) { searchResults.classList.remove('active'); } });
-        const tabBtns = document.querySelectorAll('.tab-btn'); const categoryCards = document.querySelectorAll('.category-card');
-        tabBtns.forEach(btn => { btn.addEventListener('click', () => { tabBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); const tab = btn.dataset.tab; categoryCards.forEach(card => { if (tab === 'all' || card.dataset.category === tab) { card.style.display = 'block'; card.style.animation = 'fade-in-up 0.5s ease forwards'; } else { card.style.display = 'none'; } }); }); });
-        const counters = document.querySelectorAll('.counter'); const counterObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const counter = entry.target; const target = parseInt(counter.dataset.target); let current = 0; const increment = target / 60; const timer = setInterval(() => { current += increment; if (current >= target) { counter.textContent = target; clearInterval(timer); } else { counter.textContent = Math.floor(current); } }, 30); counterObserver.unobserve(counter); } }); }, { threshold: 0.5 }); counters.forEach(counter => counterObserver.observe(counter));
-        const revealElements = document.querySelectorAll('.reveal'); const revealObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }); revealElements.forEach(el => revealObserver.observe(el));
-        const articleModal = document.getElementById('articleModal'); const modalClose = document.getElementById('modalClose'); const modalBody = document.getElementById('modalBody');
-        const articleData = { '1': { title: 'The Science Behind Carbon Footprints: A Complete Guide', content: '<p>A carbon footprint is the total amount of greenhouse gases (including carbon dioxide and methane) that are generated by our actions. The average carbon footprint per person globally is approximately 4 tons per year.</p><h3 style="margin: 1.5rem 0 1rem;">Key Contributors to Your Carbon Footprint:</h3><ul style="margin-bottom: 1.5rem; padding-left: 1.5rem;"><li style="margin-bottom: 0.5rem;">Transportation (cars, flights, shipping)</li><li style="margin-bottom: 0.5rem;">Home energy consumption</li><li style="margin-bottom: 0.5rem;">Food production and consumption</li><li style="margin-bottom: 0.5rem;">Consumer goods and services</li></ul><h3 style="margin: 1.5rem 0 1rem;">How to Measure Your Footprint:</h3><p>You can use online calculators or apps to estimate your carbon footprint. Look for tools that consider multiple factors including travel, diet, energy use, and purchasing habits.</p><h3 style="margin: 1.5rem 0 1rem;">Practical Steps to Reduce:</h3><ol style="margin-bottom: 1.5rem; padding-left: 1.5rem;"><li style="margin-bottom: 0.5rem;">Switch to renewable energy sources</li><li style="margin-bottom: 0.5rem;">Reduce air travel or carbon offset flights</li><li style="margin-bottom: 0.5rem;">Adopt a plant-based or low-meat diet</li><li style="margin-bottom: 0.5rem;">Improve home insulation and energy efficiency</li><li style="margin-bottom: 0.5rem;">Choose sustainable products and services</li></ol>' }, '2': { title: 'Permaculture Principles: Designing Sustainable Gardens', content: '<p>Permaculture is a design philosophy that works with natural systems rather than against them. It creates sustainable, productive ecosystems that require minimal input while providing maximum yield.</p><h3 style="margin: 1.5rem 0 1rem;">Core Principles:</h3><ul style="margin-bottom: 1.5rem; padding-left: 1.5rem;"><li style="margin-bottom: 0.5rem;"><strong>Observe and interact:</strong> Study your land before making changes</li><li style="margin-bottom: 0.5rem;"><strong>Catch and store energy:</strong> Collect resources when abundant</li><li style="margin-bottom: 0.5rem;"><strong>Obtain a yield:</strong> Ensure productive outputs</li><li style="margin-bottom: 0.5rem;"><strong>Apply self-regulation:</strong> Monitor and adjust practices</li><li style="margin-bottom: 0.5rem;"><strong>Use renewable resources:</strong> Prioritize sustainable solutions</li></ul><h3 style="margin: 1.5rem 0 1rem;">Getting Started:</h3><p>Begin by mapping your garden\'s sun patterns, wind exposure, and water flow. Design zones based on how often you need to access different areas. Start with perennial plants that provide long-term yields.</p>' }, '3': { title: 'Water Conservation Techniques for Urban Living', content: '<p>Urban areas face unique water challenges, but simple changes can significantly reduce your water footprint. The average person uses about 80-100 gallons of water daily.</p><h3 style="margin: 1.5rem 0 1rem;">Quick Wins:</h3><ul style="margin-bottom: 1.5rem; padding-left: 1.5rem;"><li style="margin-bottom: 0.5rem;">Fix leaky faucets (saves 3,000 gallons/year)</li><li style="margin-bottom: 0.5rem;">Install low-flow showerheads</li><li style="margin-bottom: 0.5rem;">Take shorter showers</li><li style="margin-bottom: 0.5rem;">Use water-efficient appliances</li></ul><h3 style="margin: 1.5rem 0 1rem;">Rainwater Harvesting:</h3><p>Even in urban settings, rainwater collection is possible. A single inch of rain on a 1,000 sq ft roof yields about 600 gallons. This water can be used for gardens, cleaning, or (with proper treatment) drinking.</p>' } };
-        document.querySelectorAll('.article-card').forEach(card => { card.addEventListener('click', () => { const articleId = card.dataset.article; const article = articleData[articleId]; if (article) { modalBody.innerHTML = `<h2>${article.title}</h2>${article.content}`; articleModal.classList.add('active'); } }); });
-        modalClose.addEventListener('click', () => { articleModal.classList.remove('active'); });
-        articleModal.addEventListener('click', (e) => { if (e.target === articleModal) { articleModal.classList.remove('active'); } });
-        document.querySelectorAll('.article-bookmark').forEach(bookmark => { bookmark.addEventListener('click', (e) => { e.stopPropagation(); bookmark.classList.toggle('active'); }); });
-        const quizQuestions = [ { question: "How often do you use single-use plastics?", options: ["Always", "Often", "Sometimes", "Rarely"], values: [20, 40, 70, 100] }, { question: "How do you commute daily?", options: ["Car alone", "Carpool", "Public transport", "Bike/Walk"], values: [20, 40, 70, 100] }, { question: "What's your diet primarily?", options: ["Meat-heavy", "Mixed", "Mostly plants", "Vegan"], values: [30, 50, 80, 100] }, { question: "How often do you buy local products?", options: ["Never", "Rarely", "Often", "Always"], values: [20, 40, 70, 100] }, { question: "Do you recycle regularly?", options: ["No", "Sometimes", "Most of the time", "Always"], values: [20, 40, 70, 100] } ];
-        let currentQuestion = 0, score = 0; const quizContent = document.getElementById('quizContent'); const quizResult = document.getElementById('quizResult'); const quizProgress = document.getElementById('quizProgress'); const quizQuestion = document.getElementById('quizQuestion'); const quizOptions = document.getElementById('quizOptions'); const quizStepText = document.getElementById('quizStepText');
-        function loadQuestion() { const q = quizQuestions[currentQuestion]; quizQuestion.textContent = q.question; quizStepText.textContent = `Question ${currentQuestion + 1} of ${quizQuestions.length}`; quizProgress.style.width = `${((currentQuestion) / quizQuestions.length) * 100}%`; quizOptions.innerHTML = q.options.map((opt, i) => `<div class="quiz-option" data-value="${q.values[i]}">${opt}</div>`).join(''); document.querySelectorAll('.quiz-option').forEach(opt => { opt.addEventListener('click', () => selectAnswer(parseInt(opt.dataset.value))); }); }
-        function selectAnswer(value) { score += value; currentQuestion++; if (currentQuestion < quizQuestions.length) { loadQuestion(); } else { showResult(); } }
-        function showResult() { quizContent.style.display = 'none'; quizResult.classList.add('active'); const avgScore = Math.round(score / quizQuestions.length); document.getElementById('finalScore').textContent = avgScore; document.getElementById('scoreCircle').style.setProperty('--score-percent', `${avgScore}%`); let message = ''; if (avgScore >= 80) { message = 'Excellent! You\'re a sustainability champion. Keep up the great work and continue inspiring others!'; } else if (avgScore >= 60) { message = 'Good job! You\'re making positive environmental choices. Here are some areas where you can improve further...'; } else if (avgScore >= 40) { message = 'There\'s room for improvement! Start with small changes like reducing plastic use and eating more plant-based meals.'; } else { message = 'Your journey to sustainability has just begun. Focus on one area at a time and gradually build better habits.'; } document.getElementById('scoreMessage').textContent = message; }
-        window.resetQuiz = function() { currentQuestion = 0; score = 0; quizContent.style.display = 'block'; quizResult.classList.remove('active'); loadQuestion(); }
-        loadQuestion();
-        document.querySelectorAll('.faq-question').forEach(question => { question.addEventListener('click', () => { const item = question.parentElement; item.classList.toggle('active'); }); });
-        const testimonialTrack = document.getElementById('testimonialTrack'); const prevBtn = document.getElementById('prevBtn'); const nextBtn = document.getElementById('nextBtn'); let testimonialIndex = 0;
-        function updateSlider() { const cardWidth = testimonialTrack.children[0].offsetWidth + 32; testimonialTrack.style.transform = `translateX(-${testimonialIndex * cardWidth}px)`; }
-        prevBtn.addEventListener('click', () => { if (testimonialIndex > 0) { testimonialIndex--; updateSlider(); } });
-        nextBtn.addEventListener('click', () => { if (testimonialIndex < testimonialTrack.children.length - 3) { testimonialIndex++; updateSlider(); } });
-        document.getElementById('newsletterForm').addEventListener('submit', (e) => { e.preventDefault(); const input = e.target.querySelector('input'); const btn = e.target.querySelector('button'); btn.textContent = 'Subscribed! ✓'; btn.style.background = 'var(--success)'; input.value = ''; setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; }, 3000); });
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
+        let currentUser = null;
+        let currentPage = 'feed';
+        let currentFilter = 'all';
+        let isLoginMode = true;
+
+        async function apiCall(url, options = {}) {
+            try { const res = await fetch(url, options); return await res.json(); } catch (error) { return { error: 'Connection failed' }; }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            const btn = document.querySelector(`.nav-btn[onclick="showPage('${page}')"]`);
+            if (btn) btn.classList.add('active');
+            currentPage = page;
+            if (page === 'feed') loadArticles();
+            if (page === 'profile' && currentUser) loadUserProfile();
+            if (page === 'admin' && currentUser?.is_admin == 1) loadAdminData();
+            if (page === 'create' && !currentUser) { showToast('Please login to write articles', 'error'); showPage('feed'); }
+        }
+
+        function showAuthModal(mode) { document.getElementById('authModal').classList.add('active'); isLoginMode = mode === 'login'; updateAuthForm(); }
+        function toggleAuthMode() { isLoginMode = !isLoginMode; updateAuthForm(); }
+        function updateAuthForm() {
+            document.getElementById('authTitle').textContent = isLoginMode ? 'Login' : 'Sign Up';
+            document.getElementById('authSubmit').textContent = isLoginMode ? 'Login' : 'Sign Up';
+            document.getElementById('usernameGroup').style.display = isLoginMode ? 'none' : 'block';
+            document.getElementById('authSwitchText').textContent = isLoginMode ? "Don't have an account?" : 'Already have an account?';
+            document.getElementById('authSwitchLink').textContent = isLoginMode ? 'Sign Up' : 'Login';
+        }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        async function register(username, email, password) { return await apiCall('auth.php?action=register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, email, password }) }); }
+        async function login(username, password) { return await apiCall('auth.php?action=login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) }); }
+
+        function updateAuthUI() {
+            const authButtons = document.getElementById('authButtons');
+            const userMenu = document.getElementById('userMenu');
+            const adminBtn = document.getElementById('adminBtn');
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'block';
+                document.getElementById('userAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+                if (currentUser.is_admin == 1) adminBtn.style.display = 'block';
+                loadNotifications();
+            } else { authButtons.style.display = 'flex'; userMenu.style.display = 'none'; adminBtn.style.display = 'none'; }
+        }
+
+        async function loadArticles() {
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = '<div class="loading"><div class="loading-spinner"></div>Loading...</div>';
+            try {
+                let url = 'api.php?action=get_articles&status=approved';
+                if (currentFilter !== 'all') url += '&category=' + currentFilter;
+                const data = await apiCall(url);
+                const articles = data.articles || [];
+                if (articles.length === 0) { grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📰</div><h3 class="empty-state-title">No Articles</h3><p class="empty-state-text">Be the first to write!</p></div>'; return; }
+                grid.innerHTML = articles.map(a => `<div class="article-card" onclick="viewArticle(${a.id})"><div class="article-image" style="background:${getCategoryColor(a.category)}">${getCategoryEmoji(a.category)}</div><div class="article-content"><h3 class="article-title">${a.title}</h3><p class="article-excerpt">${a.content.substring(0,150)}...</p><div class="article-meta"><div class="article-author"><div class="author-avatar">${a.username?.charAt(0).toUpperCase()||'U'}</div><span class="author-name">${a.username||'Anonymous'}</span></div><div class="article-stats"><span class="stat">❤️ ${countLikes(a.likes)}</span><span class="stat">👁️ ${a.views}</span></div></div></div></div>`).join('');
+            } catch (error) { grid.innerHTML = '<div class="loading">Failed to load</div>'; }
+        }
+
+        function countLikes(s) { try { return JSON.parse(s||'[]').length; } catch { return 0; } }
+        function getCategoryColor(c) { const m={climate:'linear-gradient(135deg,#2d6a4f,#52b788)',energy:'linear-gradient(135deg,#d4a373,#e9c46a)',wildlife:'linear-gradient(135deg,#4361ee,#7209b7)',food:'linear-gradient(135deg,#f72585,#ff6b6b)',general:'linear-gradient(135deg,#1b4332,#2d6a4f)'}; return m[c]||m.general; }
+        function getCategoryEmoji(c) { const m={climate:'🌍',energy:'⚡',wildlife:'🦋',food:'🥗',general:'📚'}; return m[c]||'📚'; }
+
+        function filterArticles(f) { currentFilter = f; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); loadArticles(); }
+
+        async function viewArticle(id) {
+            try {
+                const data = await apiCall('api.php?action=get_article&id=' + id);
+                if (data.error) { showToast(data.error,'error'); return; }
+                const a = data.article;
+                const likes = JSON.parse(a.likes||'[]');
+                const isLiked = currentUser && likes.includes(currentUser.id);
+                document.getElementById('articleDetail').innerHTML = `<div class="article-detail-header"><span class="article-detail-category">${(a.category||'general').toUpperCase()}</span><h1 class="article-detail-title">${a.title}</h1><div class="article-detail-meta"><div class="article-detail-author"><div class="author-avatar" style="width:40px;height:40px;font-size:1rem;">${a.username?.charAt(0).toUpperCase()}</div><span>${a.username}</span></div><span>•</span><span>${new Date(a.created_at).toLocaleDateString()}</span><span>•</span><span>${a.views} views</span></div></div><div class="article-actions"><button class="article-action-btn like" onclick="likeArticle(${a.id})">${isLiked?'❤️ Liked':'🤍 Like'}</button><button class="article-action-btn comment" onclick="document.getElementById('commentInput')?.focus()">💬 Comment</button></div><div class="article-detail-content">${a.content}</div><div class="comments-section"><h3 class="comments-title">💬 Comments</h3><div class="comment-form"><textarea class="comment-input" id="commentInput" placeholder="Write a comment..."></textarea><button class="comment-submit" onclick="addComment(${a.id})">Post Comment</button></div><div class="comments-list" id="commentsList"></div></div>`;
+                loadComments(id);
+                showPage('article');
+            } catch (error) { showToast('Failed to load article','error'); }
+        }
+
+        async function likeArticle(id) {
+            if (!currentUser) { showToast('Please login','error'); return; }
+            const data = await apiCall('api.php?action=like_article', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({article_id:id,user_id:currentUser.id}) });
+            if (data.success) { viewArticle(id); showToast(data.liked?'Liked!':'Like removed','success'); }
+        }
+
+        async function loadComments(id) {
+            const data = await apiCall('comments.php?action=get_comments&article_id=' + id);
+            const c = data.comments||[];
+            document.getElementById('commentsList').innerHTML = c.map(x => `<div class="comment-item"><div class="comment-avatar">${x.username?.charAt(0).toUpperCase()||'U'}</div><div class="comment-content"><div class="comment-author">${x.username}</div><div class="comment-text">${x.content}</div><div class="comment-time">${new Date(x.created_at).toLocaleDateString()}</div></div></div>`).join('') || '<p style="color:var(--text-muted);text-align:center;">No comments yet</p>';
+        }
+
+        async function addComment(id) {
+            if (!currentUser) { showToast('Please login','error'); return; }
+            const content = document.getElementById('commentInput').value.trim();
+            if (!content) return;
+            const data = await apiCall('comments.php?action=add_comment', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({article_id:id,user_id:currentUser.id,content}) });
+            if (data.message) { document.getElementById('commentInput').value = ''; loadComments(id); showToast('Comment added!','success'); }
+        }
+
+        document.getElementById('articleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) { showToast('Please login','error'); return; }
+            const data = await apiCall('api.php?action=create_article', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({user_id:currentUser.id,title:document.getElementById('articleTitle').value,category:document.getElementById('articleCategory').value,content:document.getElementById('articleContent').value}) });
+            if (data.message) { showToast('Article submitted for review!','success'); e.target.reset(); showPage('profile'); }
+            else showToast(data.error||'Failed to submit','error');
+        });
+
+        async function loadUserProfile() {
+            if (!currentUser) return;
+            document.getElementById('profileName').textContent = currentUser.username;
+            document.getElementById('profileBio').textContent = currentUser.bio || 'Eco enthusiast';
+            document.getElementById('profileAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+            const followers = JSON.parse(currentUser.followers||'[]');
+            const following = JSON.parse(currentUser.following||'[]');
+            document.getElementById('profileFollowers').textContent = followers.length;
+            document.getElementById('profileFollowing').textContent = following.length;
+            loadUserArticles();
+        }
+
+        async function loadUserArticles() {
+            if (!currentUser) return;
+            const grid = document.getElementById('userArticlesGrid');
+            const data = await apiCall('api.php?action=get_articles&user_id=' + currentUser.id);
+            const articles = data.articles||[];
+            if (articles.length === 0) { grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✍️</div><h3 class="empty-state-title">No Articles</h3><p class="empty-state-text">Share your eco knowledge!</p></div>'; return; }
+            grid.innerHTML = articles.map(a => `<div class="article-card" onclick="viewArticle(${a.id})"><div class="article-image" style="background:${getCategoryColor(a.category)}">${getCategoryEmoji(a.category)}<span class="article-status ${a.status}">${a.status}</span></div><div class="article-content"><h3 class="article-title">${a.title}</h3><p class="article-excerpt">${a.content.substring(0,150)}...</p><div class="article-meta"><span class="author-name">${a.status==='pending'?'⏳ Awaiting approval':'✅ Published'}</span><div class="article-stats"><span class="stat">❤️ ${countLikes(a.likes)}</span></div></div></div></div>`).join('');
+        }
+
+        async function loadAdminData() {
+            const stats = await apiCall('api.php?action=get_stats');
+            document.getElementById('statUsers').textContent = stats.users||0;
+            document.getElementById('statArticles').textContent = stats.articles||0;
+            document.getElementById('statPending').textContent = stats.pending||0;
+            const data = await apiCall('api.php?action=get_articles&status=pending');
+            const articles = data.articles||[];
+            if (articles.length === 0) { document.getElementById('pendingList').innerHTML = '<div class="empty-state"><div class="empty-state-icon">✅</div><h3 class="empty-state-title">All Caught Up!</h3><p class="empty-state-text">No pending articles</p></div>'; return; }
+            document.getElementById('pendingList').innerHTML = articles.map(a => `<div class="pending-item"><div class="pending-info"><h4>${a.title}</h4><p>By ${a.username} • ${new Date(a.created_at).toLocaleDateString()}</p></div><div class="pending-actions"><button class="action-btn approve" onclick="approveArticle(${a.id})">✓ Approve</button><button class="action-btn reject" onclick="rejectArticle(${a.id})">✕ Reject</button></div></div>`).join('');
+        }
+
+        async function approveArticle(id) {
+            const data = await apiCall('api.php?action=update_article', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id,user_id:currentUser.id,status:'approved'}) });
+            if (data.message) { showToast('Article approved!','success'); loadAdminData(); }
+        }
+
+        async function rejectArticle(id) {
+            const data = await apiCall('api.php?action=update_article', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id,user_id:currentUser.id,status:'rejected'}) });
+            if (data.message) { showToast('Article rejected','info'); loadAdminData(); }
+        }
+
+        async function loadNotifications() {
+            if (!currentUser) return;
+            const data = await apiCall('notifications.php?action=get_notifications&user_id=' + currentUser.id);
+            const notifs = data.notifications||[];
+            const badge = document.getElementById('notifBadge');
+            const unread = notifs.filter(n => n.read_status==0).length;
+            badge.style.display = unread>0?'flex':'none';
+            badge.textContent = unread;
+            document.getElementById('notificationsDropdown').innerHTML = notifs.slice(0,10).map(n => `<div class="notification-item"><div class="notification-text">${n.message}</div><div class="notification-time">${new Date(n.created_at).toLocaleDateString()}</div></div>`).join('') || '<div style="padding:1rem;text-align:center;color:var(--text-muted);">No notifications</div>';
+        }
+
+        function toggleNotifications() { document.getElementById('notificationsDropdown').classList.toggle('active'); }
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('authUser').value;
+            const password = document.getElementById('authPassword').value;
+            try {
+                if (isLoginMode) {
+                    const data = await login(username, password);
+                    if (data.user) { currentUser = data.user; showToast('Welcome back!','success'); closeModal('authModal'); updateAuthUI(); showPage('feed'); }
+                    else showToast(data.error||'Login failed','error');
+                } else {
+                    const newUsername = document.getElementById('authUsername').value;
+                    const data = await register(newUsername, username, password);
+                    if (data.message) { showToast('Account created! Please login.','success'); toggleAuthMode(); }
+                    else showToast(data.error||'Registration failed','error');
+                }
+            } catch (error) { showToast('An error occurred','error'); }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.notification-btn') && !e.target.closest('.notifications-dropdown')) {
+                document.getElementById('notificationsDropdown').classList.remove('active');
+            }
+        });
+
+        loadArticles();
     </script>
 </body>
 </html>
