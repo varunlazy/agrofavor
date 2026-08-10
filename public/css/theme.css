@@ -1,0 +1,49 @@
+/* ============ SmartFTP-inspired theme ============ */
+:root {
+  /* Deep navy / steel blue palette reminiscent of SmartFTP */
+  --bg-0: #0d1b2a;
+  --bg-1: #122436;
+  --bg-2: #1b3147;
+  --bg-3: #234364;
+  --bg-pane: #f4f7fb;
+  --bg-row: #ffffff;
+  --bg-row-alt: #eef3f9;
+  --bg-row-hover: #dceaf7;
+  --bg-row-selected: #0078d4;
+
+  --accent: #0078d4;
+  --accent-2: #00a4ef;
+  --accent-glow: rgba(0, 120, 212, 0.45);
+  --danger: #d13438;
+  --warn: #f8a800;
+  --success: #107c10;
+
+  --text: #e8eef5;
+  --text-dim: #9fb3c8;
+  --text-dark: #1b3147;
+  --text-dim-dark: #5a7290;
+  --border: #2c4a68;
+  --border-light: #d0dcea;
+
+  --radius: 6px;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  --font: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg-0);
+  color: var(--text);
+  font-size: 13px;
+  overflow: hidden;
+}
+.hidden { display: none !important; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
