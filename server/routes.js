@@ -33,6 +33,8 @@ router.post("/auth/login", (req, res) => {
   res.json({ user: safe, token: signToken(safe) });
 });
 
+router.get("/health", (req, res) => res.json({ ok: true, service: "smartftp-web", ts: Date.now() }));
+
 router.get("/auth/me", authRequired, (req, res) => res.json({ user: req.user }));
 
 /* ---------------- Profiles ---------------- */

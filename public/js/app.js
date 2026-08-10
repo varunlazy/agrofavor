@@ -503,6 +503,17 @@ async function saveEditedFile() {
 function bindModals() {
   $$("[data-close]").forEach((b) => b.addEventListener("click", () => b.closest(".modal").classList.add("hidden")));
   $$(".modal").forEach((m) => m.addEventListener("click", (e) => { if (e.target === m) m.classList.add("hidden"); }));
+  const sb = $("#settingsBtn");
+  if (sb) sb.addEventListener("click", () => {
+    $("#settingsApiBase").value = api.apiBase || "";
+    $("#settingsModal").classList.remove("hidden");
+  });
+  const sf = $("#settingsForm");
+  if (sf) sf.addEventListener("submit", (e) => {
+    e.preventDefault();
+    api.setApiBase($("#settingsApiBase").value.trim());
+    location.reload();
+  });
 }
 
 /* ---------- Drag & drop ---------- */
